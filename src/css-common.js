@@ -47,41 +47,17 @@ export const styles = {
         color: "white",
         margin: "2px"
     },
-    publish: {
-        backgroundColor: "#0062cc",
-        "&:hover": {
-            backgroundColor: "#0062cc",
-            opacity: 0.8
-        }
-    },
     delete: {
-        backgroundColor: "#DD4145",
-        "&:hover": {
-            backgroundColor: "#DD4145",
-            opacity: 0.8
-        }
-    },
-    update: {
-        backgroundColor: "#64A845",
-        "&:hover": {
-            backgroundColor: "#64A845",
-            opacity: 0.8
-        }
-    },
-    buttonWrapper: {
-        marginTop: "20px"
-    },
-    button: {
-        marginRight: "15px",
-        color: "white",
-        fontSize: "15px",
-        textTransform: "none",
-        height: "25px"
-    },
-    removeAll: {
-        marginTop: "20px"
-    },
-    tutorial: {
+      backgroundColor: "red",
+      border: "4px solid red",
+      borderRadius: "5px",
+      textDecoration: "none",
+      fontSize: "15px",
+      fontWeight: "bold",
+      color: "white",
+      margin: "2px"
+  },
+  container: {
         marginLeft: "25px"
     }
 };

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TextField, Button, withStyles } from "@material-ui/core"
+import { Link } from "react-router-dom";
 
 import { styles } from "../../css-common"
 import ConfigurationDataService from "../../services/configurationService"
@@ -156,15 +157,23 @@ class EditConfiguration extends Component {
   }
 
   newConfiguration() {
-    this.setState({
-      id: null,
-      type_choice: "",
-      description: "",
-      submitted: false,
-      application: this.state.application,
-      inputList: [{ codeInput: "", valueInput: "" }],
-      inputDict: {}
-    });
+
+    if (this.state.isEdit) {
+      this.setState({
+        submitted: false
+      });
+
+    } else {
+      this.setState({
+        id: null,
+        type_choice: "",
+        description: "",
+        submitted: false,
+        application: this.state.application,
+        inputList: [{ codeInput: "", valueInput: "" }],
+        inputDict: {}
+      });
+    }
   }
 
   render() {
@@ -205,24 +214,21 @@ class EditConfiguration extends Component {
             required
           />
           {inputList.length !== 1 && 
-            <Button 
-              size="small"
-              color="primary"
-              variant="contained"
+            <Link
               onClick={() => this.handleRemoveClick(i)}
+              className={classes.delete}
             >
               Remove
-            </Button>
+            </Link>
           }
           {inputList.length - 1 === i && 
-            <Button 
-              size="small"
-              color="primary"
-              variant="contained"
+            <Link
               onClick={this.handleAddClick}
+              className={classes.create}
             >
               Add
-            </Button>
+            </Link>
+
           }
         </div>
       )
@@ -233,21 +239,18 @@ class EditConfiguration extends Component {
         {this.state.submitted ? (
           <div className={classes.form}>
             <h4>You submitted successfully!</h4>
-            <Button
-              size="small"
-              color="primary"
-              variant="contained"
+            <Link
               onClick={this.newConfiguration}
+              className={classes.edit}
             >
-              Add
-            </Button>
-            <Button
-              size="small"
-              color="primary"
-              variant="contained"
+              {isCreate?"Add":"Edit"}
+            </Link>
+            <Link
+              to={isCreate?"/applications/":"/applications/" + this.state.application + "/configurations"}
+              className={classes.edit}
             >
-              Go to Applications
-            </Button>
+              {isCreate?"Applications":"Configuration"}
+            </Link>
           </div>) : (
           <div className={classes.form}>
             {renderTypeChoiceInput()}
@@ -256,14 +259,13 @@ class EditConfiguration extends Component {
                 renderDynamicInputs(x,i)
               );})
             }
-            <Button
-              size="small"
-              color="primary"
-              variant="contained"
+            <Link
               onClick={this.saveConfiguration}
+              className={classes.edit}
             >
               Submit
-            </Button>
+            </Link>
+
           </div>)}
         </React.Fragment>
       );

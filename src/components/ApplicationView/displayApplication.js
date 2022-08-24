@@ -98,7 +98,7 @@ class DisplayApplication extends Component {
 
     const displayItem = () => {
       return (
-          <div className={classes.tutorial}>
+          <div className={classes.container}>
           <h4>Detail</h4>
           <div className={classes.detail}>
             <label>
@@ -134,7 +134,7 @@ class DisplayApplication extends Component {
       return (
         <div>
           <br />
-          <p className={classes.tutorial}>Please Select an Application...</p>
+          <p className={classes.container}>Please Select an Application...</p>
         </div>
       )
     }

@@ -80,7 +80,7 @@ class DisplayVersion extends Component {
 
   const renderItem = () => {
     return (
-      <div className={classes.tutorial}>
+      <div className={classes.container}>
         <h4>Version Detail</h4>
         <div className={classes.detail}>
           <label>
@@ -129,7 +129,7 @@ class DisplayVersion extends Component {
     return (
       <div>
         <br />
-        <p className={classes.tutorial}>Please Select a Version...</p>
+        <p className={classes.container}>Please Select a Version...</p>
       </div>
     )
   }
