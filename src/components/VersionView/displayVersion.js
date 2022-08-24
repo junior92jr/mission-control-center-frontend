@@ -102,15 +102,9 @@ class DisplayVersion extends Component {
         </div>
         <div className={classes.detail}>
           <label>
-            <strong>Status:</strong>
-          </label>{" "}
-          Pending
-        </div>
-        <div className={classes.detail}>
-          <label>
             <strong>Roles:</strong>
           </label>{" "}
-          <div className="list-group">
+          <div className={classes.listGroupRoles}>
             {roles &&
               roles.map((item, index) => (
                 <>

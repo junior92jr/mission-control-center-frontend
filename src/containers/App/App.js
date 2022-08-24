@@ -9,7 +9,7 @@ import {
   DisplayConfiguration, 
   EditConfiguration} from "../../components/ConfigurationView";
 import {DisplayVersion} from "../../components/VersionView";
-import {DisplayApplication} from "../../components/ApplicationView";
+import {DisplayApplication, CreateApplication} from "../../components/ApplicationView";
 
 
 class App extends Component {
@@ -28,11 +28,17 @@ class App extends Component {
                 Applications
             </Typography>
             </Link>
+            <Link to={"/applications/add"} className={classes.link}>
+              <Typography variant="body2">
+                Add App
+            </Typography>
+            </Link>
           </Toolbar>
         </AppBar>
 
         <Switch>
           <Route exact path={["/", "/applications"]} component={DisplayApplication} />
+          <Route exact path={["/applications/add"]} component={CreateApplication} />
           <Route exact path={["/applications/:id/configurations/"]} component={DisplayConfiguration} />
           <Route exact path={["/applications/:app_id/configurations/add/"]} component={EditConfiguration} />
           <Route exact path={["/configurations/:conf_id/edit/"]} component={EditConfiguration} />

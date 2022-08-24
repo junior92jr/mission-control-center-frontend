@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextField, withStyles } from "@material-ui/core"
+import { TextField, withStyles, NativeSelect } from "@material-ui/core"
 
 import { Link } from "react-router-dom";
 
@@ -182,23 +182,22 @@ class EditConfiguration extends Component {
 
   render() {
     const { classes } = this.props
-    const { inputList, isCreate, errors } = this.state;
+    const { inputList, isCreate } = this.state;
 
     const renderTypeChoiceInput = () => {
       if (isCreate) {
         return (
+          <>
           <div className={classes.textField}>
-            <TextField
-              label="Type Choice"
-              name="type_choice"
-              value={this.state.type_choice}
+            <NativeSelect
               onChange={this.onChangeTypeChoice}
-              error= {errors.type_choice}
-              helperText={errors.type_choice}
-              inputProps={{ maxLength: 4 }}
-              required
-            />
+              defaultValue={this.state.type_choice}
+            >
+              <option value={"tech"}>Tech</option>
+              <option value={"meta"}>Meta</option>
+            </NativeSelect>
           </div>
+          </>
         )
       }
     }
