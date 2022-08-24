@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { TextField, Button, withStyles } from "@material-ui/core"
+import { TextField, withStyles } from "@material-ui/core"
+
 import { Link } from "react-router-dom";
 
 import { styles } from "../../css-common"
@@ -22,11 +23,12 @@ class EditConfiguration extends Component {
 
     this.state = {
         id: null,
-        type_choice: "",
+        type_choice: null,
         submitted: false,
         application: null,
         inputList: [{ codeInput: "", valueInput: "" }],
         inputDict: {},
+        errors: {},
         isCreate: false,
         isEdit: false
     };
@@ -134,10 +136,11 @@ class EditConfiguration extends Component {
             inputList: this.convertDictResponse(response.data.roles_set),
             submitted: true
           });
-          this.setState({submitted: true});
         })
-        .catch(e => {
-          console.log(e);
+        .catch(error => {
+          this.setState({
+            errors:error.response.data
+          })
         });
     } else {
       ConfigurationDataService.update(this.state.id, data)
@@ -150,8 +153,10 @@ class EditConfiguration extends Component {
           submitted: true
         });
       })
-      .catch(e => {
-        console.log(e);
+      .catch(error => {
+        this.setState({
+          errors:error.response.data
+        })
       });
     }
   }
@@ -166,8 +171,7 @@ class EditConfiguration extends Component {
     } else {
       this.setState({
         id: null,
-        type_choice: "",
-        description: "",
+        type_choice: null,
         submitted: false,
         application: this.state.application,
         inputList: [{ codeInput: "", valueInput: "" }],
@@ -178,7 +182,7 @@ class EditConfiguration extends Component {
 
   render() {
     const { classes } = this.props
-    const { inputList, isCreate } = this.state;
+    const { inputList, isCreate, errors } = this.state;
 
     const renderTypeChoiceInput = () => {
       if (isCreate) {
@@ -189,6 +193,9 @@ class EditConfiguration extends Component {
               name="type_choice"
               value={this.state.type_choice}
               onChange={this.onChangeTypeChoice}
+              error= {errors.type_choice}
+              helperText={errors.type_choice}
+              inputProps={{ maxLength: 4 }}
               required
             />
           </div>
@@ -205,6 +212,7 @@ class EditConfiguration extends Component {
             value={x.codeInput}
             onChange={e => this.handleInputChange(e, i)}
             required
+            inputProps={{ maxLength: 20 }}
           />
           <TextField
             label="Role Value"
@@ -212,6 +220,7 @@ class EditConfiguration extends Component {
             value={x.valueInput}
             onChange={e => this.handleInputChange(e, i)}
             required
+            inputProps={{ maxLength: 20 }}
           />
           {inputList.length !== 1 && 
             <Link
@@ -253,6 +262,7 @@ class EditConfiguration extends Component {
             </Link>
           </div>) : (
           <div className={classes.form}>
+            <h4>{isCreate?"Create Configuration":"Edit Configuration"}</h4>
             {renderTypeChoiceInput()}
             {inputList.map((x, i) => {
               return (
