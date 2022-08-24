@@ -42,7 +42,6 @@ class DisplayVersion extends Component {
         roles: selectedRoles
       })
     }
-
   }
 
   setActiveVersion(version, index) {
@@ -58,82 +57,97 @@ class DisplayVersion extends Component {
     const { classes } = this.props
     const { versions, roles, currentIndex, currentVersion} = this.state;
 
-    console.log(versions)
-    
+  const renderVersions = () => {
     return (
-      <div className={classes.form}>
-        <Grid container>
-          <Grid item md={4}>
-            <h2>Version List</h2>
-            <div className="list-group">
-              {versions &&
-                versions.map((version, index) => (
-                  <ListItem
-                    selected={index === currentIndex}
-                    onClick={() => this.setActiveVersion(version, index)}
-                    divider
-                    button	
-                    key={index}>
-                    Version_{version.version}_{version.type_choice}
-                  </ListItem>
-                ))}
-            </div>
-          </Grid>
+      <Grid item md={4}>
+        <h2>Versions</h2>
+        <div className="list-group">
+          {versions &&
+            versions.map((version, index) => (
+              <ListItem
+                selected={index === currentIndex}
+                onClick={() => this.setActiveVersion(version, index)}
+                divider
+                button	
+                key={index}>
+                Version_{version.version}_{version.type_choice}
+              </ListItem>
+            ))}
+        </div>
+      </Grid>
+    )
+  }
 
-          <Grid item md={6}>
-            {currentVersion ? (
-              <div className={classes.tutorial}>
-                <h4>Version Detail</h4>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Type:</strong>
-                  </label>{" "}
-                  {currentVersion.type_choice}
-                </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Createtion Date:</strong>
-                  </label>{" "}
-                  {currentVersion.created_at}
-                </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Last Update Date:</strong>
-                  </label>{" "}
-                  {currentVersion.updated_at}
-                </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Status:</strong>
-                  </label>{" "}
-                  Pending
-                </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Roles:</strong>
-                  </label>{" "}
-                  <div className="list-group">
-                    {roles &&
-                      roles.map((item, index) => (
-                        <>
-                          <div className={classes.detail}>
-                            <strong>{item.key}</strong>: {item.value}
-                          </div>
-                        </>
-                      ))}
+  const renderItem = () => {
+    return (
+      <div className={classes.tutorial}>
+        <h4>Version Detail</h4>
+        <div className={classes.detail}>
+          <label>
+            <strong>Type:</strong>
+          </label>{" "}
+          {currentVersion.type_choice}
+        </div>
+        <div className={classes.detail}>
+          <label>
+            <strong>Createtion Date:</strong>
+          </label>{" "}
+          {currentVersion.created_at}
+        </div>
+        <div className={classes.detail}>
+          <label>
+            <strong>Last Update Date:</strong>
+          </label>{" "}
+          {currentVersion.updated_at}
+        </div>
+        <div className={classes.detail}>
+          <label>
+            <strong>Status:</strong>
+          </label>{" "}
+          Pending
+        </div>
+        <div className={classes.detail}>
+          <label>
+            <strong>Roles:</strong>
+          </label>{" "}
+          <div className="list-group">
+            {roles &&
+              roles.map((item, index) => (
+                <>
+                  <div className={classes.detail}>
+                    <strong>{item.key}</strong>: {item.value}
                   </div>
-                </div>
-              </div>
-            ) : (
-                <div>
-                  <br />
-                  <p className={classes.tutorial}>Please click on a Version...</p>
-                </div>
-              )}
-          </Grid>
-        </Grid>
+                </>
+              ))}
+          </div>
+        </div>
       </div>
-    );}
+    )
+  }
+
+  const selectItem = () => {
+    return (
+      <div>
+        <br />
+        <p className={classes.tutorial}>Please Select a Version...</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className={classes.form}>
+      <Grid container>
+        {renderVersions()}
+        <Grid item md={6}>
+          {currentVersion ? (
+            renderItem()
+          ) : (
+            selectItem()
+          )}
+        </Grid>
+      </Grid>
+    </div>
+  );}
   }
   
   export default withStyles(styles)(DisplayVersion)
