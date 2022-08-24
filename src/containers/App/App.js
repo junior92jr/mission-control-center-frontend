@@ -5,7 +5,10 @@ import { AppBar, Toolbar, Typography, withStyles } from '@material-ui/core';
 import "./App.css";
 
 import {styles} from "../../css-common"
-
+import {
+  DisplayConfiguration, 
+  CreateConfiguration, 
+  EditConfiguration} from "../../components/ConfigurationView";
 import {DisplayApplication} from "../../components/ApplicationView";
 
 
@@ -30,6 +33,9 @@ class App extends Component {
 
           <Switch>
             <Route exact path={["/", "/applications"]} component={DisplayApplication} />
+            <Route exact path={["/applications/:id/configurations/"]} component={DisplayConfiguration} />
+            <Route exact path={["/applications/:id/configurations/add/"]} component={CreateConfiguration} />
+            <Route exact path={["/configurations/:id/edit/"]} component={EditConfiguration} />
           </Switch>
       </div>
     );
