@@ -15,6 +15,7 @@ class DisplayConfiguration extends Component {
       configurations: [],
       currentIndex: -1,
       roles: [],
+      serviceError: false
     };
   }
   
@@ -31,7 +32,9 @@ class DisplayConfiguration extends Component {
         });
       })
       .catch(e => {
-        console.log(e);
+        this.setState({
+          serviceError: true
+        })
       });
   }
 
@@ -56,88 +59,132 @@ class DisplayConfiguration extends Component {
   
   render() {
     const { classes } = this.props
-    const { configurations, roles, currentIndex, currentConfiguration} = this.state;
-      
-    return (
-      <div className={classes.form}>
-        <Grid container>
-          <Grid item md={4}>
-            <h2>Configuration List</h2>
+    const { 
+      configurations, 
+      roles, 
+      currentIndex, 
+      currentConfiguration, 
+      serviceError} = this.state;
+
+    const renderServiceError = () => {
+      return (
+        <div className={classes.form}>
+          <h2>Service Not available</h2>
+        </div>
+      )
+    }
+
+    const renderConfigurations = () => {
+      return (
+        <Grid item md={4}>
+          <h2>Configurations</h2>
+          <div className="list-group">
+            {configurations &&
+              configurations.map((configuration, index) => (
+                <ListItem
+                  selected={index === currentIndex}
+                  onClick={() => this.setActiveConfiguration(configuration, index)}
+                  divider
+                  button	
+                  key={index}
+                >
+                  Configuration_{configuration.id}_{configuration.type_choice}
+                </ListItem>
+              ))}
+          </div>
+        </Grid>
+      )
+    }
+
+    const renderButtons = () => {
+      return (
+        <>
+          <Link
+            to={"/configurations/" + currentConfiguration.id + "/versions"}
+            className={classes.edit}
+          >
+            Versions
+          </Link>
+        </>
+      )
+    }
+
+    const displayItem = () => {
+      return (
+        <div className={classes.tutorial}>
+          <h4>Configuration Detail</h4>
+          <div className={classes.detail}>
+            <label>
+              <strong>Type:</strong>
+            </label>{" "}
+            {currentConfiguration.type_choice}
+          </div>
+          <div className={classes.detail}>
+            <label>
+              <strong>Createtion Date:</strong>
+            </label>{" "}
+            {currentConfiguration.created_at}
+          </div>
+          <div className={classes.detail}>
+            <label>
+              <strong>Last Update Date:</strong>
+            </label>{" "}
+            {currentConfiguration.updated_at}
+          </div>
+          <div className={classes.detail}>
+            <label>
+              <strong>Status:</strong>
+            </label>{" "}
+            Pending
+          </div>
+          <div className={classes.detail}>
+            <label>
+              <strong>Roles:</strong>
+            </label>{" "}
             <div className="list-group">
-              {configurations &&
-                configurations.map((configuration, index) => (
-                  <ListItem
-                    selected={index === currentIndex}
-                    onClick={() => this.setActiveConfiguration(configuration, index)}
-                    divider
-                    button	
-                    key={index}>
-                    Configuration_{configuration.id}_{configuration.type_choice}
-                  </ListItem>
+              {roles &&
+                roles.map((item, index) => (
+                  <>
+                    <div className={classes.detail}>
+                      <strong>{item.key}</strong>: {item.value}
+                    </div>
+                  </>
                 ))}
             </div>
-          </Grid>
+          </div>
+          {renderButtons()}
+        </div>
+      )
+    }
 
-          <Grid item md={6}>
-            {currentConfiguration ? (
-              <div className={classes.tutorial}>
-                <h4>Configuration Detail</h4>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Type:</strong>
-                  </label>{" "}
-                  {currentConfiguration.type_choice}
-                </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Createtion Date:</strong>
-                  </label>{" "}
-                  {currentConfiguration.created_at}
-                </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Last Update Date:</strong>
-                  </label>{" "}
-                  {currentConfiguration.updated_at}
-                </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Status:</strong>
-                  </label>{" "}
-                  Pending
-                </div>
-                <div className={classes.detail}>
-                  <label>
-                    <strong>Roles:</strong>
-                  </label>{" "}
-                  <div className="list-group">
-                    {roles &&
-                      roles.map((item, index) => (
-                        <>
-                          <div className={classes.detail}>
-                            <strong>{item.key}</strong>: {item.value}
-                          </div>
-                        </>
-                      ))}
-                  </div>
-                </div>
-                <Link
-                  to={"/configurations/" + currentConfiguration.id + "/versions"}
-                  className={classes.edit}
-                >
-                  Versions
-              </Link>
-              </div>
-            ) : (
-                <div>
-                  <br />
-                  <p className={classes.tutorial}>Please click on a Configuration...</p>
-                </div>
+    const selectItem = () => {
+      return (
+        <div>
+          <br />
+          <p className={classes.tutorial}>Please Select a Configuration...</p>
+        </div>
+      )
+    }
+
+    if (serviceError) {
+      return renderServiceError()
+    } else {
+      return (
+        <div className={classes.form}>
+          <Grid container>
+            {renderConfigurations()}
+
+            <Grid item md={6}>
+              {currentConfiguration ? (
+                displayItem()
+              ) : (
+                selectItem()
               )}
+            </Grid>
           </Grid>
-        </Grid>
-      </div>
-    );}
+        </div>
+      )}
+    }
   }
   
   export default withStyles(styles)(DisplayConfiguration)

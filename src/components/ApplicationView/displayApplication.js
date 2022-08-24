@@ -50,7 +50,7 @@ class DisplayApplication extends Component {
     const { applications, currentIndex, currentApplication, serviceError} = this.state;
 
 
-    const renderAuthButton = () => {
+    const renderServiceError = () => {
       return (
         <div className={classes.form}>
           <h2>Service Not available</h2>
@@ -140,7 +140,7 @@ class DisplayApplication extends Component {
     }
 
     if (serviceError) {
-      return renderAuthButton()
+      return renderServiceError()
     } else {
       return (
         <div className={classes.form}>
