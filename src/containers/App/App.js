@@ -7,7 +7,6 @@ import "./App.css";
 import {styles} from "../../css-common"
 import {
   DisplayConfiguration, 
-  CreateConfiguration, 
   EditConfiguration} from "../../components/ConfigurationView";
 import {DisplayVersion} from "../../components/VersionView";
 import {DisplayApplication} from "../../components/ApplicationView";
@@ -32,13 +31,13 @@ class App extends Component {
           </Toolbar>
         </AppBar>
 
-          <Switch>
-            <Route exact path={["/", "/applications"]} component={DisplayApplication} />
-            <Route exact path={["/applications/:id/configurations/"]} component={DisplayConfiguration} />
-            <Route exact path={["/applications/:id/configurations/add/"]} component={CreateConfiguration} />
-            <Route exact path={["/configurations/:id/edit/"]} component={EditConfiguration} />
-            <Route exact path={["/configurations/:id/versions/"]} component={DisplayVersion} />
-          </Switch>
+        <Switch>
+          <Route exact path={["/", "/applications"]} component={DisplayApplication} />
+          <Route exact path={["/applications/:id/configurations/"]} component={DisplayConfiguration} />
+          <Route exact path={["/applications/:app_id/configurations/add/"]} component={EditConfiguration} />
+          <Route exact path={["/configurations/:conf_id/edit/"]} component={EditConfiguration} />
+          <Route exact path={["/configurations/:id/versions/"]} component={DisplayVersion} />
+        </Switch>
       </div>
     );
   }

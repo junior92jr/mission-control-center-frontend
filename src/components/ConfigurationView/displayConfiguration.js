@@ -105,6 +105,12 @@ class DisplayConfiguration extends Component {
           >
             Versions
           </Link>
+          <Link
+            to={"/configurations/" + currentConfiguration.id + "/edit"}
+            className={classes.edit}
+          >
+            Edit Configuration
+          </Link>
         </>
       )
     }
