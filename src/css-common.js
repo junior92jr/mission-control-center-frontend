@@ -24,6 +24,10 @@ export const styles = {
   detail: {
     margin: "5px 0"
   },
+  detailDescription: {
+    margin: "15px 0",
+    width: "500px"
+  },
   edit: {
     backgroundColor: "orange",
     border: "4px solid orange",

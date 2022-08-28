@@ -143,6 +143,7 @@ class CreateApplication extends Component {
                   helperText={errors.description}
                   inputProps={{ maxLength: 1000}}
                   required
+                  style = {{width: 500}}
                 />
               </div>
 

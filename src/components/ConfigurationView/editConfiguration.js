@@ -23,7 +23,7 @@ class EditConfiguration extends Component {
 
     this.state = {
         id: null,
-        type_choice: null,
+        type_choice: "meta",
         submitted: false,
         application: null,
         inputList: [{ codeInput: "", valueInput: "" }],
@@ -94,6 +94,7 @@ class EditConfiguration extends Component {
 
   handleInputChange(e, index) {
     const { name, value } = e.target;
+    console.log(value)
     const currentlist = [...this.state.inputList];
     currentlist[index][name] = value;
     this.setState({
@@ -182,7 +183,7 @@ class EditConfiguration extends Component {
 
   render() {
     const { classes } = this.props
-    const { inputList, isCreate } = this.state;
+    const { inputList, isCreate, errors} = this.state;
 
     const renderTypeChoiceInput = () => {
       if (isCreate) {
@@ -191,7 +192,8 @@ class EditConfiguration extends Component {
           <div className={classes.textField}>
             <NativeSelect
               onChange={this.onChangeTypeChoice}
-              defaultValue={this.state.type_choice}
+              value={this.state.type_choice}
+              error={errors.type_choice}
             >
               <option value={"tech"}>Tech</option>
               <option value={"meta"}>Meta</option>
@@ -236,7 +238,6 @@ class EditConfiguration extends Component {
             >
               Add
             </Link>
-
           }
         </div>
       )
